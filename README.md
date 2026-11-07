@@ -42,3 +42,11 @@ firebase login
 firebase use --add        # pick or create your Firebase project
 firebase deploy --only hosting
 ```
+
+### Automatic deploys
+
+`.github/workflows/firebase-deploy.yml` deploys `public/` to the Firebase
+project `eaad-4ac74` on every push to `main` (or run it by hand from the
+Actions tab). It needs a repository secret named `FIREBASE_SERVICE_ACCOUNT`
+holding a service-account JSON key from Firebase console → Project settings →
+Service accounts → Generate new private key.
