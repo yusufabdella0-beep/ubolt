@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Branch Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">BP</div>
+      <div>
+        <h1>Branch Performance</h1>
+        <p class="subtitle" id="asOf">Performance dashboard</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <label class="btn btn-ghost" for="csvInput" title="Load your own data from a CSV file">
+        Import<span class="hide-sm"> CSV</span>
+        <input type="file" id="csvInput" accept=".csv,text/csv" hidden />
+      </label>
+      <button class="btn btn-ghost" id="exportBtn" title="Download the current view as CSV">Export</button>
+      <button class="btn btn-icon" id="themeBtn" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+    </div>
+  </header>
+
+  <section class="filters" aria-label="Filters">
+    <div class="field">
+      <label for="regionFilter">Region</label>
+      <select id="regionFilter"></select>
+    </div>
+    <div class="field">
+      <label for="branchFilter">Branch</label>
+      <select id="branchFilter"></select>
+    </div>
+    <div class="field">
+      <label for="periodFilter">Period</label>
+      <select id="periodFilter"></select>
+    </div>
+    <div class="field">
+      <label for="metricFilter">Metric</label>
+      <select id="metricFilter"></select>
+    </div>
+    <div class="field grow">
+      <label for="searchInput">Search</label>
+      <input id="searchInput" type="search" placeholder="Branch name or code…" />
+    </div>
+  </section>
+
+  <main class="content">
+    <section class="kpis" id="kpis" aria-label="Key indicators"></section>
+
+    <section class="grid-2">
+      <article class="card">
+        <header class="card-head">
+          <h2 id="barTitle">Actual vs target by branch</h2>
+          <span class="hint">Top 15</span>
+        </header>
+        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+      </article>
+      <article class="card">
+        <header class="card-head">
+          <h2 id="trendTitle">Monthly trend</h2>
+        </header>
+        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+      </article>
+    </section>
+
+    <section class="grid-3">
+      <article class="card">
+        <header class="card-head"><h2>Achievement by region</h2></header>
+        <div class="chart-wrap small"><canvas id="regionChart"></canvas></div>
+      </article>
+      <article class="card">
+        <header class="card-head"><h2>Performance bands</h2></header>
+        <div class="chart-wrap small"><canvas id="bandChart"></canvas></div>
+      </article>
+      <article class="card">
+        <header class="card-head"><h2>Top &amp; bottom performers</h2></header>
+        <div class="leaders" id="leaders"></div>
+      </article>
+    </section>
+
+    <article class="card">
+      <header class="card-head">
+        <h2>Branch ranking</h2>
+        <span class="hint" id="rowCount"></span>
+      </header>
+      <div class="table-wrap">
+        <table id="rankTable">
+          <thead>
+            <tr>
+              <th data-key="rank">#</th>
+              <th data-key="name">Branch</th>
+              <th data-key="region">Region</th>
+              <th data-key="deposits" class="num">Deposits</th>
+              <th data-key="loans" class="num">Loans</th>
+              <th data-key="customers" class="num">New customers</th>
+              <th data-key="digital" class="num">Digital users</th>
+              <th data-key="achievement" class="num">Achievement</th>
+              <th data-key="growth" class="num">Growth</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </article>
+  </main>
+
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <button class="btn btn-icon drawer-close" id="drawerClose" aria-label="Close">✕</button>
+      <h2 id="drawerTitle"></h2>
+      <p class="subtitle" id="drawerSub"></p>
+      <div class="drawer-kpis" id="drawerKpis"></div>
+      <div class="chart-wrap"><canvas id="drawerChart"></canvas></div>
+    </div>
+  </div>
+
+  <footer class="footer">Sample data shown. Use <strong>Import CSV</strong> to load your branches.</footer>
+
+  <script src="data/sample-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
